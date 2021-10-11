@@ -1,40 +1,43 @@
 <template>
   <main class="main">
     <h1 class="title">{{ title }}</h1>
-    <p class="publishedAt">{{ publishedAt }}</p>
-    <p class="category">{{ category && category.name }}</p>
-    <div class="post" v-html="body"></div>
+    <time>{{ publishedAt }}</time>
+    <div class="post" v-html="body.replace(/\n/g,'<br/>')"></div>
   </main>
 </template>
 
 <script>
+// microCMSからコンテンツを取得
 import axios from 'axios'
+
+// publishedAtを日本時間に変換
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export default {
   async asyncData({ params }) {
     const { data } = await axios.get(
       `https://trade.microcms.io/api/v1/blog/${params.slug}`,
-      {
-        headers: {'X-API-KEY':'8ccac964-e916-4075-ade4-0435d219c3b5'}
-      }
+      {headers: {'X-API-KEY':'8ccac964-e916-4075-ade4-0435d219c3b5'}}
     )
+    data.publishedAt = dayjs.utc(data.publishedAt).tz('Asia/Tokyo').format('YYYY.MM.DD')
     return data
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
 .main {
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
 .title {
   margin-bottom: 20px;
-}
-
-.publishedAt {
-  margin-bottom: 40px;
 }
 
 .post {
