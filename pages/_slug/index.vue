@@ -4,17 +4,17 @@
       <h1 class="title">{{ title }}</h1>
       <time>{{ publishedAt }}</time>
       <p class="intro" v-if="body" v-html="body.replace(/\n/g,'<br/>')"></p>
-      <section v-if="textMarket.exchange">
-        <h2>ドル円</h2>
-        <p v-html="textMarket.exchange.replace(/\n/g,'<br/>')"></p>
+      <section v-if="textMarket.stocks_jp">
+        <h2>日本株</h2>
+        <p v-html="textMarket.stocks_jp.replace(/\n/g,'<br/>')"></p>
       </section>
       <section v-if="textMarket.stocks_us">
         <h2>米国株</h2>
         <p v-html="textMarket.stocks_us.replace(/\n/g,'<br/>')"></p>
       </section>
-      <section v-if="textMarket.stocks_jp">
-        <h2>日本株</h2>
-        <p v-html="textMarket.stocks_jp.replace(/\n/g,'<br/>')"></p>
+      <section v-if="textMarket.exchange">
+        <h2>ドル円</h2>
+        <p v-html="textMarket.exchange.replace(/\n/g,'<br/>')"></p>
       </section>
       <section v-if="textMarket.commodity">
         <h2>WTI原油</h2>
